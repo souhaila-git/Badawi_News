@@ -1,0 +1,38 @@
+<head>
+	<title>Badaoui News</title>
+	<meta charset="utf-8" />
+	<link rel="stylesheet" href="assets/css/loginstyle.css" />
+</head>
+
+<body>
+	<div class="form-structor">
+		<form id='register_form' method="POST">
+			<div class="signup">
+				<h2 class="form-title" id="signup"><span>or</span>Sign up</h2>
+				<div class="form-holder">
+					<input type="text" id="username" class="input" placeholder="Username" />
+					<input type="text" id="name" class="input" placeholder="Name" />
+					<input type="text" id="lastname" class="input" placeholder="Last Name" />
+					<input type="email" id="email" class="input" placeholder="Email" />
+					<input type="password" id="pwd" class="input" placeholder="Password" />
+				</div>
+				<input class="submit-btn" type="submit" value="Sign up">
+				<!--<button class="submit-btn">Sign up</button>-->
+			</div>
+		</form>
+		<form id='login_form' methodd='POST'>
+			<div class="login slide-up">
+				<div class="center">
+					<h2 class="form-title" id="login"><span>or</span>Log in</h2>
+					<div class="form-holder">
+						<input type="text" id="username" class="input" placeholder="Username" />
+						<input type="password" id='pwd' class="input" placeholder="Password" />
+					</div>
+					<button class="submit-btn" onClick="login()">Log in</button>
+				</div>
+			</div>
+		</form>
+	</div>
+	<script type="text/javascript" src="assets/js/loginjs.js"></script>
+	<script type="text/javascript" src="scripts.js"></script>
+</body>

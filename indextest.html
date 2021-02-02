@@ -1,0 +1,225 @@
+<!--https://www.tutorialspoint.com/angularjs/angularjs_environment.htm-->
+<!DOCTYPE HTML>
+<html>
+
+<head>
+    <title>Badaoui News</title>
+    <meta charset="utf-8" />
+   <!-- <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />-->
+    <link rel="stylesheet" href="assets/css/main.css" />
+
+</head>
+
+<body ng-app="blogApp" class="is-preload">
+
+    <div ng-controller="BlogController as blog">
+        <!-- Wrapper -->
+        <div id="wrapper">
+
+            <!-- Header -->
+            <header id="header">
+                <h1><a href="#" ng-click="blog.selectTab('blog')">{{blog.title}}</a></h1>
+                <nav class="links">
+                    <ul>
+                        <li><a href="#" ng-click="blog.selectTab('blog')">See All Posts</a></li>
+       
+                    </ul>
+                </nav>
+                <nav class="main">
+                    <ul>
+                        <li class="search">
+                            <a class="fa-search" href="#search">Search</a>
+                            <form id="search" method="get" action="#">
+                                <input type="text" name="query" placeholder="Search" />
+                            </form>
+                        </li>
+                        <li class="menu">
+                            <a class="fa-bars" href="#menu">Menu</a>
+                        </li>
+                    </ul>
+                </nav>
+            </header>
+
+            <!-- Menu -->
+            <section id="menu">
+
+                <!-- Links -->
+                <section>
+                    <ul class="links">
+                        <li>
+                            <a href="#">
+                                <h3>Profile</h3>
+                            </a>
+                        </li>
+                    </ul>
+                </section>
+
+                <!-- Actions -->
+                <section>
+                    <ul class="actions stacked">
+                        <li><a href="#" class="button large fit">Log out</a></li>
+                    </ul>
+                </section>
+
+            </section>
+
+            <!-- Main -->
+
+            <div id="main">
+
+                <!-- Post -->
+
+                <div class="content">
+                    <div class="container">
+                        
+                        <div class="row">
+
+                            
+                            <ul ng-show="blog.isSelected('blog')">
+                                <div class="post">
+                                    <h2>ADD A NEW </h2>
+                
+                                    <form name="postForm" ng-submit=" blog.addPost()" novalidate>
+                                        <input type="text" ng-model="blog.post.title" placeholder="New's title" />
+                                        <h4>Body</h4>
+                                        <textarea ng-model="blog.post.body" ng-list="/\n/" rows="2" placeholder="New's body"></textarea>
+                                        <input type="submit" value="Submit" />
+                
+                                    </form>
+                                </div>
+                                
+                                <div ng-repeat="post in blog.posts" class="col-s-4"
+                                    ng-class="{ 'reset-s' : $index%3==0 }">
+                                    <article class="post">
+                                        <div class="meta">
+                                            <a href="#" class="author"><span class="name">{{post.user.username}}</span><img
+                                                    src="images/Reddit.png" alt="" /></a>
+                                        </div>
+                                        <h3>{{post.title}}</h3>
+                                        <p>{{post.body[0] | limitTo:400}} <a  style="color:rgb(255, 102, 0);" ng-click="blog.selectTab($index)">Continue reading....</a></p>  
+                                        <a class="like fas fa-thumbs-up pr-2" ng-click="post.likes = post.likes+1"> {{post.likes}}
+                                            
+                                        </a>                                                
+
+                    
+
+                                        <a class="dislike fas fa-thumbs-down pr-2" ng-click="post.dislikes = post.dislikes+1">{{post.dislikes}}</a>
+                                        <a class="far fa-comment" ng-click="blog.selectTab($index)"> {{post.comments.length}}
+                                        </a>
+ 
+                                        <div ng-controller="reactionController">
+
+                                            <button ng-click="toggle()">Show reactions</button>
+                                            <p ng-show="myVar">
+                                                
+                                                
+                                               
+                                                <ul ng-show="myVar">
+                                                    Liked BY:  </br>
+                                                    <li ng-show="myVar" ng-repeat="likedby in post.likedby">
+                                                        {{likedby.user}}
+                                                        
+                                                    </li>
+                                                    Disiked BY: </br>
+                                                    <li ng-show="myVar" ng-repeat="dislikedby in post.dislikedby">
+                                                        {{dislikedby.user}}
+                                                        
+                                                    </li>
+                                                </ul> 
+                                            </p>
+                                
+                                                
+                                               
+                                        </div>
+
+
+                                        <div class="meta">
+                                            <time class="published" datetime="2015-11-01">{{post.createdOn | date}}</time>
+                                        </div>
+
+                                    </article>
+
+
+                                </div>
+                            </ul>
+
+                            
+
+
+                        </div>
+                        <div class="post" ng-repeat="post in blog.posts" ng-show="blog.isSelected($index)">
+                            <div>
+
+                                <h2>{{post.title}}</h2>
+                                <img src="{{post.image}}" ng-show="{{post.image}}" />
+                               <a href="#" class="author"><span class="name">{{post.user.username}}</span><img
+                                    src="images/Reddit.png" alt="" /></a >  <cite style="color:rgb(255, 102, 0);">on {{post.createdOn | date}}    </cite>
+                                <div class="post-body">
+                                    <p ng-repeat="paragraph in post.body">
+                                        {{paragraph}}
+                                    </p>
+                                </div>
+
+                                <div class="comments" ng-controller="CommentController as commentCtrl">
+                                    <a class="like fas fa-thumbs-up pr-2" ng-click="post.likes = post.likes+1"> {{post.likes}}
+                                    </a>
+
+                                    <a class="dislike fas fa-thumbs-down pr-2" ng-click="post.dislikes = post.dislikes+1">{{post.dislikes}}</a>
+                                </br></br></br>
+                                    <h3>Comments</h3>
+                                    <ul>
+                                        <li ng-repeat="comment in post.comments">
+                                            "{{comment.body}}"
+                                            <cite>- <b>{{comment.author}}</b></cite>
+                                        </li>
+                                    </ul>
+                                    <form name="commentForm"
+                                        ng-submit="commentForm.$valid && commentCtrl.addComment(post)" novalidate>
+
+
+                                        <h4>Add Comment</h4>
+                                        <textarea ng-model="commentCtrl.comment.body" cols="30" rows="5"
+                                            required></textarea>
+                                        <label for="">by:</label>
+                                        <input type="text" ng-model="commentCtrl.comment.author" required
+                                            placeholder="Name" />
+
+                                        <input type="submit" value="Submit" />
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+
+
+            </div>
+
+
+    
+
+      
+        </div>
+        
+    </div>
+
+    <!-- Scripts -->
+    <script src="assets/js/jquery.min.js"></script>
+    <script src="assets/js/browser.min.js"></script>
+    <script src="assets/js/breakpoints.min.js"></script>
+    <script src="assets/js/util.js"></script>
+    <script src="assets/js/main.js"></script>
+    <!-- partial -->
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.3.2/angular.min.js'></script>
+
+    <script src='https://ajax.googleapis.com/ajax/libs/angularjs/1.2.9/angular-animate.js'></script>
+    <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/jquery-2.1.0.min.js'></script>
+    <script src='https://s3-us-west-2.amazonaws.com/s.cdpn.io/110131/responsive.js'></script>
+
+    <script src="assets/js/script.js"></script>
+</body>
+
+</html>
